@@ -25,3 +25,11 @@ def generate_chromosomes_genes(n):
         genes.append(r)
 
     return genes
+
+
+# Generate Population of genes (elements)
+def generate_population(m, n):
+    pop = []
+    for i in range(int(m)):
+        pop.append(generate_chromosomes_genes(n))
+    return pop
