@@ -41,7 +41,7 @@ def generate_population(m, n):
 # n: is the weights and values list size
 def fitness(v_w, pop):
     weights = []
-    values =  []
+    values = []
 
     for chromosome in pop:
         i = 0
@@ -100,6 +100,26 @@ def selection(fitness_values, pop_size):
     while len(fitness_values) < pop_size:
         fitness_values.append(fitness_values[i % pop_size])
         i += 1
+
+    return fitness_values
+
+# We will need to select two chromosomes randomly to apply crossover on
+# Single Point Crossover
+def cross_over(c1, c2):
+    os1 = []
+    os2 = []
+    siz = len(c1)
+    # Generate random single point for crossover
+    r = random.uniform(1, siz)
+    for i in range(int(r)):
+        os1.append(c1[i])
+        os2.append(c2[i])
+
+    for j in range(int(r), siz):
+        os1.append(c2[j])
+        os2.append(c1[j])
+
+    return os1, os2
 
 
 c = int(input("Number of test cases: "))
