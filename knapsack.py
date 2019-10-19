@@ -56,3 +56,13 @@ def fitness(v_w, pop):
         values.append(val_of_knapsack)
 
     return weights, values
+
+
+# Select the chromosomes that can be fitted in the knapsack
+# size: is Knapsack size
+def evaluate_fitness(pop, weights, size):
+    accepted = []
+    for i in range(len(weights)):
+        if weights[i] <= size:
+            accepted.append(pop[i])
+    return accepted
