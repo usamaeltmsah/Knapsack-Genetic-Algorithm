@@ -1,7 +1,6 @@
 import random
 
 
-
 def get_knapsack_v_w(n):
     v_w = list()
     for j in range(int(n)):
@@ -88,6 +87,7 @@ def roulette_wheel_calc(pop, weights):
 
     return fitness_values
 
+
 # This selection is implemented using Roulette Wheel
 def selection(fitness_values, pop_size):
     if isinstance(fitness_values, list):
@@ -103,6 +103,7 @@ def selection(fitness_values, pop_size):
 
     return fitness_values
 
+
 # We will need to select two chromosomes randomly to apply crossover on
 # Single Point Crossover
 def cross_over(c1, c2):
@@ -110,7 +111,7 @@ def cross_over(c1, c2):
     os2 = []
     siz = len(c1)
     # Generate random single point for crossover
-    r = random.uniform(1, siz)
+    r = int(random.uniform(1, siz))
     for i in range(int(r)):
         os1.append(c1[i])
         os2.append(c2[i])
@@ -120,6 +121,34 @@ def cross_over(c1, c2):
         os2.append(c1[j])
 
     return os1, os2
+
+
+def get_pop_after_crossover(fitness_values, c1_ind, c2_ind, new_fitness):
+    new_generation = []
+    siz = len(fitness_values)
+    for i in range(siz):
+        if i != c1_ind and i != c2_ind:
+            new_generation.append(fitness_values[i])
+    new_generation.append(new_fitness)
+
+    return new_generation
+
+
+def flip_bit(bit):
+    if bit == 0:
+        bit = 1
+    else:
+        bit = 0
+    return bit
+
+
+# Make mutation on random bit of the chromosome
+def mutation(chromosome):
+    r = int(random.uniform(0, len(chromosome)))
+
+    chromosome[r] = flip_bit(chromosome[r])
+
+    return chromosome
 
 
 c = int(input("Number of test cases: "))
