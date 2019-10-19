@@ -75,3 +75,24 @@ def feasible_solutions(pop, weights, size):
         if weights[i] == size:
             feasible.append(pop[i])
     return feasible
+
+
+
+c = int(input("Number of test cases: "))
+n = int(input("Number of items: "))
+size = int(input("Size of knapsack: "))
+
+# List of Values and Weights
+print("Values and Weights:-")
+# get_knapsack_v_w(c, n)
+l = get_knapsack_v_w(n)
+
+x = generate_population(10, n)
+print(x)
+w_v = fitness(l, x)
+
+print(w_v)
+
+c = evaluate_fitness(x, w_v[1], size)
+
+print(feasible_solutions(c, w_v[1], size))
