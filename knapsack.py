@@ -66,3 +66,12 @@ def evaluate_fitness(pop, weights, size):
         if weights[i] <= size:
             accepted.append(pop[i])
     return accepted
+
+
+# This function will determine if there is feasible solutions without need to crossover and mutation
+def feasible_solutions(pop, weights, size):
+    feasible = []
+    for i in range(len(weights)):
+        if weights[i] == size:
+            feasible.append(pop[i])
+    return feasible
