@@ -28,6 +28,7 @@ def generate_chromosomes_genes(n):
 
 
 # Generate Population of genes (elements)
+# m: is population size
 def generate_population(m, n):
     pop = []
     for i in range(int(m)):
@@ -76,6 +77,29 @@ def feasible_solutions(pop, weights, size):
             feasible.append(pop[i])
     return feasible
 
+
+def roulette_wheel_calc(pop, weights):
+    total_fitness = sum(weights)
+    fitness_values = []
+    for chromosome in pop:
+        fit_val = chromosome / total_fitness
+        if fit_val > 0:
+            fitness_values.append(fit_val)
+
+    return fitness_values
+
+# This selection is implemented using Roulette Wheel
+def selection(fitness_values, pop_size):
+    if isinstance(fitness_values, list):
+        # Sort Descending
+        fitness_values.sort(reverse=True)
+    i = 0
+    # Make the fitness values size match the required population size
+    # We will repeat the values have the highest probability
+    # i % pop_size: Repeat again and again while the two sizes doesn't match
+    while len(fitness_values) < pop_size:
+        fitness_values.append(fitness_values[i % pop_size])
+        i += 1
 
 
 c = int(input("Number of test cases: "))
