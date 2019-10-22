@@ -31,7 +31,11 @@ def generate_chromosomes_genes(n):
 def generate_population(m, n):
     pop = []
     for i in range(int(m)):
-        pop.append(generate_chromosomes_genes(n))
+        r = generate_chromosomes_genes(n)
+        # All population items should be different
+        while r in pop:
+            r = generate_chromosomes_genes(n)
+        pop.append(r)
     return pop
 
 
@@ -168,4 +172,4 @@ print(w_v)
 
 c = evaluate_fitness(x, w_v[1], size)
 
-print(feasible_solutions(c, w_v[1], size))
+print(feasible_solutions(x, w_v[1], size))
