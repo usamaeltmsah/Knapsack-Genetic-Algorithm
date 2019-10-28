@@ -174,11 +174,7 @@ def get_new_population_after_crossover(half_pop, new_generation):
 
 
 def flip_bit(bit):
-    if bit == 0:
-        bit = 1
-    else:
-        bit = 0
-    return bit
+    return int(not bit)
 
 
 # Make mutation on random bit of the chromosome
