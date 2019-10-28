@@ -1,13 +1,14 @@
 import random
 
 
-def get_knapsack_v_w(n):
-    v_w = list()
+# Get Weights and benefits of knapsack
+def get_knapsack_w_b(n):
+    w_b = list()
     for j in range(int(n)):
         # Get Value and Weight in one line separated by space
-        v_w.append(list(map(int, input().split())))
+        w_b.append(list(map(int, input().split())))
 
-    return v_w
+    return w_b
 
 
 # Chromosomes Encoding
