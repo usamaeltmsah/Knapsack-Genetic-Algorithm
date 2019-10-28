@@ -192,6 +192,56 @@ def mutation(chromosome):
 
     return chromosome
 
+def apply_mutation_on_population(population, knapsack_w_b, size):
+    new_pop = []
+    # TODO: If the fitness of the new chromosome better, replace ..
+    for chromosome in population:
+        old_ben = evaluate_single_chromosome(knapsack_w_b, chromosome)[1]
+        new_chromosome = mutation(chromosome)
+        new_fit = evaluate_single_chromosome(knapsack_w_b, new_chromosome)
+        new_weight = new_fit[0]
+        new_ben = new_fit[1]
+        # If the new chromosome is better append it, otherwise append the new one
+        if new_ben > old_ben and new_weight <= size:
+            new_pop.append(new_chromosome)
+        else:
+            new_pop.append(chromosome)
+
+    return new_pop
+
+
+def sort_fitness_according_to_benefits(fitness_w_b):
+    ben, weight = zip(*sorted(zip(fitness_w_b[1], fitness_w_b[0]), reverse=True))
+
+    return list(weight), list(ben)
+
+
+def sort_population_according_to_benefit(population, fitness_w_b):
+    # Sort Benefits Descending
+    # sorted_weight = [benefit for _, benefit in sorted(zip(fitness_w_b[1], fitness_w_b[0]))]
+    ben, sorted_population = zip(*sorted(zip(fitness_w_b[1], population), reverse=True))
+
+    return sorted_population
+
+
+# This function takes the sorted population as parameter
+def get_best_chromosome(filtered_pop, knapsack_w_b, knapsack_size):
+    fitness_w_b = evaluate_fitness(knapsack_w_b, filtered_pop)
+    sorted_fit = sort_fitness_according_to_benefits(fitness_w_b)
+    fitness_w_b = sorted_fit
+
+    best_chromosome = []
+    # TODO: If the weight > size of knapsack, make its benefit = 0
+    for i in range(len(fitness_w_b[1])):
+        # If the weight > size of knapsack, make its benefit = 0
+        if fitness_w_b[0][i] > knapsack_size:
+            fitness_w_b[1][i] = 0
+        else:
+            best_chromosome = filtered_pop[i]
+            break
+
+    return best_chromosome
+
 
 c = int(input("Number of test cases: "))
 n = int(input("Number of items: "))
