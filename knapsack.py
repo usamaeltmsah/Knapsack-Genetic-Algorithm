@@ -67,6 +67,28 @@ def evaluate_fitness(knapsack_w_b, population):
     return weights, benefits
 
 
+# Filter Population Function (Which elements will be accepted and which will be rejected)
+# Rejected chromosomes will be replaced by a new one
+def filter_population(knapsack_w_b, population, fitness, knapsack_size):
+    i = 0
+    accepted_chromosomes = []
+    for chromosome_fit in fitness[0]:
+        if chromosome_fit <= knapsack_size:
+            accepted_chromosomes.append(population[i])
+
+        else:
+            # Generate new chromosome while its fitness is greater than knapsack size
+            c = generate_single_chromosome_genes(len(population[0]))
+            j = 0
+            # Try this just 5 times to avoid infinity loop
+            while((evaluate_single_chromosome(knapsack_w_b, c)[0] > knapsack_size)) and j <= 5:
+                c = generate_single_chromosome_genes(len(population[0]))
+                j += 1
+            accepted_chromosomes.append(c)
+        i += 1
+    return accepted_chromosomes
+
+
 # This function will determine if there is feasible solutions without need to crossover and mutation
 def feasible_solutions(pop, weights, size):
     feasible = []
