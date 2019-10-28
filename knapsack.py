@@ -140,6 +140,16 @@ def apply_crossover(c1, c2):
     return os1, os2
 
 
+def select_chromosome_for_crossover(population, fitness):
+    pop_size = len(population)
+    i = get_index_to_select(fitness, pop_size)
+    c = population[i]
+    population.pop(i)
+    fitness[0].pop(i)
+
+    return c
+
+
 def get_pop_after_crossover(fitness_values, c1_ind, c2_ind, new_fitness):
     new_generation = []
     siz = len(fitness_values)
