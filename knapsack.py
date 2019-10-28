@@ -98,15 +98,16 @@ def feasible_solutions(pop, weights, size):
     return feasible
 
 
-def roulette_wheel_calc(pop, weights):
-    total_fitness = sum(weights)
-    fitness_values = []
-    for chromosome in pop:
-        fit_val = chromosome / total_fitness
-        if fit_val > 0:
-            fitness_values.append(fit_val)
+# Calculate the probability of every chromosome's weight
+def roulette_wheel_calc(fitness_w_b):
+    total_weight_fitness = sum(fitness_w_b[0])
+    fitness_prop = []
+    fit_val = 0
+    for weight in fitness_w_b[0]:
+        fit_val += weight / total_weight_fitness
+        fitness_prop.append(fit_val)
 
-    return fitness_values
+    return fitness_prop
 
 
 # This selection is implemented using Roulette Wheel
