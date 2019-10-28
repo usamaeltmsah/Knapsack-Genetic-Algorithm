@@ -111,19 +111,14 @@ def roulette_wheel_calc(fitness_w_b):
 
 
 # This selection is implemented using Roulette Wheel
-def selection(fitness_values, pop_size):
-    if isinstance(fitness_values, list):
-        # Sort Descending
-        fitness_values.sort(reverse=True)
-    i = 0
-    # Make the fitness values size match the required population size
-    # We will repeat the values have the highest probability
-    # i % pop_size: Repeat again and again while the two sizes doesn't match
-    while len(fitness_values) < pop_size:
-        fitness_values.append(fitness_values[i % pop_size])
-        i += 1
-
-    return fitness_values
+# weights_prop: gets from implementation of roulette_wheel_calc() function
+def get_index_to_select(fitness_w_b, pop_size):
+    weights_prop = roulette_wheel_calc(fitness_w_b)
+    r = random.uniform(0, 1)
+    for i in range(pop_size):
+        if r <= weights_prop[i]:
+            # return the index of the selected chromosome
+            return i
 
 
 # We will need to select two chromosomes randomly to apply crossover on
