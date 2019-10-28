@@ -41,6 +41,19 @@ def generate_population(pop_size, n_items):
     return pop
 
 
+# Get the fitness of one single chromosome
+def evaluate_single_chromosome(knapsack_w_b, chromosome):
+    weight = 0
+    benefit = 0
+    i = 0
+    for gene in chromosome:
+        weight += gene * knapsack_w_b[i][0]
+        benefit += gene * knapsack_w_b[i][1]
+        i += 1
+
+    return weight, benefit
+
+
 # Fitness Function (Which elements will be accepted and which will be rejected)
 # V_m: is the 2D list which carry the knapsack,
 # n: is the weights and values list size
