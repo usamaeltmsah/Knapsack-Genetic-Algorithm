@@ -13,30 +13,31 @@ def get_knapsack_w_b(n):
 
 # Chromosomes Encoding
 # Chromosome Length = n (Number of items)
-def generate_chromosomes_genes(n):
+# If the gene is 1 that means that this item will be included in the knapsack
+def generate_single_chromosome_genes(n_items):
     genes = []
-    for i in range(int(n)):
+    for i in range(int(n_items)):
         r = random.uniform(0, 1)
         if r <= 0.5:
-            r = 0
-        else:
             r = 1
-
+        else:
+            r = 0
         genes.append(r)
 
     return genes
 
-
 # Generate Population of genes (elements)
-# m: is population size
-def generate_population(m, n):
+def generate_population(pop_size, n_items):
     pop = []
-    for i in range(int(m)):
-        r = generate_chromosomes_genes(n)
+    for i in range(int(pop_size)):
+        chromosome = generate_single_chromosome_genes(n_items)
+        # TODO: Check if it's a good chromosome
+        #  (Size of knapsack should be greater than or equal this chromosome fitness)
+
         # All population items should be different
-        while r in pop:
-            r = generate_chromosomes_genes(n)
-        pop.append(r)
+        while chromosome in pop:
+            chromosome = generate_single_chromosome_genes(n_items)
+        pop.append(chromosome)
     return pop
 
 
