@@ -179,9 +179,16 @@ def flip_bit(bit):
 
 # Make mutation on random bit of the chromosome
 def mutation(chromosome):
-    r = int(random.uniform(0, len(chromosome)))
+    # pm: fixed parameter in GA [0.001 → 0.1]
+    # Probability that mutation will occur for a gene/bit in some chromosomes
+    pm = 0.05
+    chromosome_len = len(chromosome)
 
-    chromosome[r] = flip_bit(chromosome[r])
+    # Check which bits should be flipped
+    for i in range(chromosome_len):
+        r = random.uniform(0, 1)
+        if r <= pm:
+            chromosome[i] = flip_bit(chromosome[i])
 
     return chromosome
 
