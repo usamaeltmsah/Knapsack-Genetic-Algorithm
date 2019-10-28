@@ -123,7 +123,7 @@ def get_index_to_select(fitness_w_b, pop_size):
 
 # We will need to select two chromosomes randomly to apply crossover on
 # Single Point Crossover
-def cross_over(c1, c2):
+def apply_crossover(c1, c2):
     os1 = []
     os2 = []
     siz = len(c1)
