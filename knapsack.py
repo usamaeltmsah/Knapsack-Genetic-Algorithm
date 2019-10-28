@@ -150,17 +150,6 @@ def select_chromosome_for_crossover(population, fitness):
     return c
 
 
-def get_pop_after_crossover(fitness_values, c1_ind, c2_ind, new_fitness):
-    new_generation = []
-    siz = len(fitness_values)
-    for i in range(siz):
-        if i != c1_ind and i != c2_ind:
-            new_generation.append(fitness_values[i])
-    new_generation.append(new_fitness)
-
-    return new_generation
-
-
 def flip_bit(bit):
     if bit == 0:
         bit = 1
