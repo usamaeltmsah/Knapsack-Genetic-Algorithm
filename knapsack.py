@@ -54,29 +54,6 @@ def evaluate_single_chromosome(knapsack_w_b, chromosome):
     return weight, benefit
 
 
-# Fitness Function (Which elements will be accepted and which will be rejected)
-# V_m: is the 2D list which carry the knapsack,
-# n: is the weights and values list size
-def fitness(v_w, pop):
-    weights = []
-    values = []
-
-    for chromosome in pop:
-        i = 0
-        weight_of_knapsack = 0
-        val_of_knapsack = 0
-
-        for gene in chromosome:
-            weight_of_knapsack += gene * v_w[i][0]
-            val_of_knapsack += gene * v_w[i][1]
-            i += 1
-
-        weights.append(weight_of_knapsack)
-        values.append(val_of_knapsack)
-
-    return weights, values
-
-
 # knapsack_w_b: is the 2D list which carry the knapsack,
 # population: is the population of chromosomes
 def evaluate_fitness(knapsack_w_b, population):
