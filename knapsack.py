@@ -242,6 +242,39 @@ def get_best_chromosome(filtered_pop, knapsack_w_b, knapsack_size):
 
     return best_chromosome
 
+def apply_GA_On_Knapsack(knapsack_w_b, n_items, size):
+    pop = generate_population(n_items*int(n_items/2), n_items)
+    fitness_w_b = evaluate_fitness(knapsack_w_b, pop)
+    filtered_pop = filter_population(knapsack_w_b, pop, fitness_w_b, size)
+    new_gen = cross_over(filtered_pop, fitness_w_b)
+    pop_after_crossover = get_new_population_after_crossover(filtered_pop, new_gen)
+    new_fit = evaluate_fitness(knapsack_w_b, pop_after_crossover)
+    sorted_fit = sort_fitness_according_to_benefits(new_fit)
+    mutated_pop = apply_mutation_on_population(pop_after_crossover, knapsack_w_b, size)
+    sorted_pop = sort_population_according_to_benefit(mutated_pop, sorted_fit)
+    best_chromosome = get_best_chromosome(sorted_pop, knapsack_w_b, size)
+    best_chromosome_benefit = evaluate_single_chromosome(knapsack_w_b, best_chromosome)[1]
+    
+    # Make till 8 Generations
+    for i in range(8):
+        fitness_w_b = evaluate_fitness(knapsack_w_b, sorted_pop)
+        filtered_pop = filter_population(knapsack_w_b, sorted_pop, fitness_w_b, size)
+        new_gen = cross_over(filtered_pop, fitness_w_b)
+        new_gen = get_new_population_after_crossover(filtered_pop, new_gen)
+        new_gen = apply_mutation_on_population(new_gen, knapsack_w_b, size)
+        new_fit = evaluate_fitness(knapsack_w_b, new_gen)
+        sorted_pop = sort_population_according_to_benefit(new_gen, new_fit)
+        new_best_chromosome = get_best_chromosome(sorted_pop, knapsack_w_b, size)
+        new_best_chromosome_benefit = evaluate_single_chromosome(knapsack_w_b, new_best_chromosome)[1]
+        if new_best_chromosome_benefit > best_chromosome_benefit:
+            best_chromosome = new_best_chromosome
+            # Append the best chromosome to the new generation
+            sorted_pop = list(sorted_pop)
+            sorted_pop[len(sorted_pop) - 1] = best_chromosome
+            best_chromosome_benefit = new_best_chromosome_benefit
+        print(evaluate_fitness(knapsack_w_b, sorted_pop))
+        print(best_chromosome_benefit)
+
 
 c = int(input("Number of test cases: "))
 n = int(input("Number of items: "))
