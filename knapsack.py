@@ -168,6 +168,11 @@ def cross_over(population, fitness):
     return new_generation
 
 
+# append the new generation to the new ones
+def get_new_population_after_crossover(half_pop, new_generation):
+    return half_pop + new_generation
+
+
 def flip_bit(bit):
     if bit == 0:
         bit = 1
