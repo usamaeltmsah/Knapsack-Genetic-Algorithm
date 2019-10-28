@@ -150,6 +150,24 @@ def select_chromosome_for_crossover(population, fitness):
     return c
 
 
+def cross_over(population, fitness):
+    pop_size = len(population)
+    new_generation = []
+    # We will make crossover on half of the population
+    # So we will apply this 1/4 times as we select 2 chromosomes every time
+    limit = int(pop_size / 4)
+    for i in range(limit):
+        # Randomly select 2 chromosomes using roulette wheel to apply crossover on them
+        # Pop the selected items from the population
+        c1 = select_chromosome_for_crossover(population, fitness)
+        c2 = select_chromosome_for_crossover(population, fitness)
+        # Apply crossover to generate new generation
+        os = apply_crossover(c1, c2)
+        new_generation.append(os[0])
+        new_generation.append(os[1])
+    return new_generation
+
+
 def flip_bit(bit):
     if bit == 0:
         bit = 1
