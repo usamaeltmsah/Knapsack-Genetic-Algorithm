@@ -77,14 +77,17 @@ def fitness(v_w, pop):
     return weights, values
 
 
-# Select the chromosomes that can be fitted in the knapsack
-# size: is Knapsack size
-def evaluate_fitness(pop, weights, size):
-    accepted = []
-    for i in range(len(weights)):
-        if weights[i] <= size:
-            accepted.append(pop[i])
-    return accepted
+# knapsack_w_b: is the 2D list which carry the knapsack,
+# population: is the population of chromosomes
+def evaluate_fitness(knapsack_w_b, population):
+    weights = []
+    benefits = []
+    for chromosome in population:
+        chromosome_fit = evaluate_single_chromosome(knapsack_w_b, chromosome)
+        weights.append(chromosome_fit[0])
+        benefits.append(chromosome_fit[1])
+
+    return weights, benefits
 
 
 # This function will determine if there is feasible solutions without need to crossover and mutation
