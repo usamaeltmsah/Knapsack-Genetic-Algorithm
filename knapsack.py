@@ -11,6 +11,34 @@ def get_knapsack_w_b(n):
     return w_b
 
 
+def read_input_file(file_path):
+    lines = []
+    inputs = []
+    # "input_example.txt", "r"
+    with open(file_path, "r") as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                lines.append(line)
+    c = int(lines[0])
+    inputs.append(c)
+    lines.pop(0)
+    for i in range(c):
+        knapsack_w_b = list()
+        n = int(lines[0])
+        inputs.append(n)
+        lines.pop(0)
+        size = int(lines[0])
+        inputs.append(size)
+        lines.pop(0)
+        for i in range(int(n)):
+            # Get Value and Weight in one line separated by space
+            knapsack_w_b.append(list(map(int, lines[0].split())))
+            lines.pop(0)
+        inputs.append(knapsack_w_b)
+    return (inputs)
+
+
 # Chromosomes Encoding
 # Chromosome Length = n (Number of items)
 # If the gene is 1 that means that this item will be included in the knapsack
@@ -25,6 +53,7 @@ def generate_single_chromosome_genes(n_items):
         genes.append(r)
 
     return genes
+
 
 # Generate Population of genes (elements)
 def generate_population(pop_size, n_items):
@@ -89,17 +118,9 @@ def filter_population(knapsack_w_b, population, fitness, knapsack_size):
     return accepted_chromosomes
 
 
-# This function will determine if there is feasible solutions without need to crossover and mutation
-def feasible_solutions(pop, weights, size):
-    feasible = []
-    for i in range(len(weights)):
-        if weights[i] == size:
-            feasible.append(pop[i])
-    return feasible
-
-
 # Calculate the probability of every chromosome's weight
 def roulette_wheel_calc(fitness_w_b):
+    # Weight fitness weight = fitness[0]
     total_weight_fitness = sum(fitness_w_b[0])
     fitness_prop = []
     fit_val = 0
@@ -121,8 +142,6 @@ def get_index_to_select(fitness_w_b, pop_size):
             return i
 
 
-# We will need to select two chromosomes randomly to apply crossover on
-# Single Point Crossover
 def apply_crossover(c1, c2):
     os1 = []
     os2 = []
@@ -192,6 +211,7 @@ def mutation(chromosome):
 
     return chromosome
 
+
 def apply_mutation_on_population(population, knapsack_w_b, size):
     new_pop = []
     # TODO: If the fitness of the new chromosome better, replace ..
@@ -242,19 +262,29 @@ def get_best_chromosome(filtered_pop, knapsack_w_b, knapsack_size):
 
     return best_chromosome
 
+
 def apply_GA_On_Knapsack(knapsack_w_b, n_items, size):
     pop = generate_population(n_items*int(n_items/2), n_items)
+    # print(pop)
     fitness_w_b = evaluate_fitness(knapsack_w_b, pop)
+    # print(fitness_w_b)
     filtered_pop = filter_population(knapsack_w_b, pop, fitness_w_b, size)
+    # print(filtered_pop)
     new_gen = cross_over(filtered_pop, fitness_w_b)
+    # print(new_gen)
     pop_after_crossover = get_new_population_after_crossover(filtered_pop, new_gen)
+    # print(pop_after_crossover)
     new_fit = evaluate_fitness(knapsack_w_b, pop_after_crossover)
     sorted_fit = sort_fitness_according_to_benefits(new_fit)
+    # print(sorted_fit)
     mutated_pop = apply_mutation_on_population(pop_after_crossover, knapsack_w_b, size)
     sorted_pop = sort_population_according_to_benefit(mutated_pop, sorted_fit)
+    # print(sorted_pop)
     best_chromosome = get_best_chromosome(sorted_pop, knapsack_w_b, size)
+    # print(best_chromosome)
     best_chromosome_benefit = evaluate_single_chromosome(knapsack_w_b, best_chromosome)[1]
-    
+    # print(best_chromosome_benefit)
+
     # Make till 8 Generations
     for i in range(8):
         fitness_w_b = evaluate_fitness(knapsack_w_b, sorted_pop)
@@ -272,25 +302,28 @@ def apply_GA_On_Knapsack(knapsack_w_b, n_items, size):
             sorted_pop = list(sorted_pop)
             sorted_pop[len(sorted_pop) - 1] = best_chromosome
             best_chromosome_benefit = new_best_chromosome_benefit
-        print(evaluate_fitness(knapsack_w_b, sorted_pop))
-        print(best_chromosome_benefit)
+        # print(evaluate_fitness(knapsack_w_b, sorted_pop))
+    return (best_chromosome_benefit)
 
 
-c = int(input("Number of test cases: "))
-n = int(input("Number of items: "))
-size = int(input("Size of knapsack: "))
+# Get input from keyboard
+# c = int(input("Number of test cases: "))
+# n = int(input("Number of items: "))
+# size = int(input("Size of knapsack: "))
+# # List of Values and Weights
+# print("Benefits and Weights:-")
+# knapsack_w_b = get_knapsack_w_b(n)
+# apply_GA_On_Knapsack(knapsack_w_b, n, size)
 
-# List of Values and Weights
-print("Values and Weights:-")
-# get_knapsack_v_w(c, n)
-l = get_knapsack_v_w(n)
-
-x = generate_population(10, n)
-print(x)
-w_v = fitness(l, x)
-
-print(w_v)
-
-c = evaluate_fitness(x, w_v[1], size)
-
-print(feasible_solutions(x, w_v[1], size))
+inputs = read_input_file("input_example.txt")
+c = inputs[0]
+inputs.pop(0)
+for i in range(c):
+    n = inputs[0]
+    inputs.pop(0)
+    size = inputs[0]
+    inputs.pop(0)
+    knapsack_w_b = inputs[0]
+    inputs.pop(0)
+    best = apply_GA_On_Knapsack(knapsack_w_b, n, size)
+    print(f"Case: {i+1} {best}")
