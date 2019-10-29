@@ -14,7 +14,7 @@ def get_knapsack_w_b(n):
 def read_input_file(file_path):
     lines = []
     inputs = []
-    # "../input_example.txt", "r"
+    # "input_example.txt", "r"
     with open(file_path, "r") as f:
         for line in f:
             line = line.strip()
@@ -315,7 +315,8 @@ def apply_GA_On_Knapsack(knapsack_w_b, n_items, size):
 # knapsack_w_b = get_knapsack_w_b(n)
 # apply_GA_On_Knapsack(knapsack_w_b, n, size)
 
-inputs = read_input_file("../input_example.txt")
+
+inputs = read_input_file("input_example.txt")
 c = inputs[0]
 inputs.pop(0)
 for i in range(c):
