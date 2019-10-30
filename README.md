@@ -11,4 +11,4 @@ We want to **maximize** the benefits of the items to fit our knapsack.
 4. Apply mutation on the whole population.
 5. Again, evaluate the fitness.
 6. Sort the population according to benefits.
-7. Get the best chromosome
+7. Get the best chromosome.
